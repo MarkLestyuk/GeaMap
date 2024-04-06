@@ -66,6 +66,11 @@ nav ul li a:hover {
     </header>
     <main>
         <div id="map"></div>
+        
+        <p id="distance"></p>
+
+
+
     </main>
     <footer>
 

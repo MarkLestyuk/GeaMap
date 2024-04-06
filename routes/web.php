@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DataController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+            
+// Route::get('/', [App\Http\Controllers\DataController::class, 'index'])->name('getdata');
+
+Route::get('home/personal_account', function () {
+    return view('personal_account');
+});
+
+
 
 Auth::routes();
 
