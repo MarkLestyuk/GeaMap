@@ -13,14 +13,14 @@ use App\Http\Controllers\DataController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('index');
 });
 
             
 // Route::get('/', [App\Http\Controllers\DataController::class, 'index'])->name('getdata');
 
-Route::get('home/personal_account', function () {
+Route::get('/home/personal_account', function () {
     return view('personal_account');
 });
 
@@ -28,5 +28,5 @@ Route::get('home/personal_account', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

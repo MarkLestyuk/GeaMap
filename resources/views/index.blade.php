@@ -18,9 +18,8 @@
         <nav>
             <ul>
                 <li><a href="/public/home">Главная</a></li>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Услуги</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="/public/home/personal_account">Личный кабинет</a></li>
+                <li><a href="/public/">Выход</a></li>
             </ul>
         </nav>
         <style>
