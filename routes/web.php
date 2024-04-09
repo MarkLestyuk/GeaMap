@@ -24,8 +24,6 @@ Route::get('/home/personal_account', function () {
     return view('personal_account');
 });
 
-
-
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

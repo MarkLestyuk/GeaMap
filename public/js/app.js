@@ -46,7 +46,7 @@ function setIcon(){
     var distance = calculateDistance(e.target.getLatLng(), (e.target === point1) ? point2.getLatLng() : point1.getLatLng());
     alert("Расстояние от вашей точки: " + distance + " метров");
 
-    if (distance > 100) {
+    if (distance > 1000) {
       point2.setIcon(redIcon);
       point3.setIcon(redIcon);
       point4.setIcon(redIcon);
