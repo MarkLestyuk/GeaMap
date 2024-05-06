@@ -20,6 +20,8 @@ Route::get('/home', function () {
             
 // Route::get('/', [App\Http\Controllers\DataController::class, 'index'])->name('getdata');
 
+
+
 Route::get('/home/personal_account', function () {
     return view('personal_account');
 });

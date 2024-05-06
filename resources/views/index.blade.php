@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/resources/css/app.css" />
     <link rel="stylesheet" href="/public/js/leaflet.css" />
 </head>
+
 <body>
     <header>
         <div class="logo"><img src="/public/img/logo.jpg"></div>
@@ -22,6 +23,19 @@
     <main>
         <div id="map"></div>
         <p id="distance"></p>
+        <div id="popup-form">
+            <h2>Добавить комментарий</h2>
+            <form id="comment-form">
+                <input type="text" id="username" placeholder="Ваше имя" required><br>
+                <textarea id="comment" placeholder="Ваш комментарий" required></textarea><br>
+                <label for="color">Выберите цвет метки:</label>
+                <input type="color" id="color" value="#ff0000"><br>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+
+        <button id="clear-markers">Очистить метки</button>
+
     </main>
     <footer>
         <p>&copy; 2024 GEOMAP.</p>

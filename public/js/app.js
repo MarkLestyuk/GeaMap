@@ -2,71 +2,99 @@
 var map = L.map('map').setView([55.751244, 37.618423], 12);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+  maxZoom: 19,
 }).addTo(map);
 
-var point1 = L.marker([55.751244, 37.618423]).addTo(map);
-var point2 = L.marker([55.751684, 37.618423]).addTo(map);
-var point3 = L.marker([55.795544, 37.7566]).addTo(map);
-var point4 = L.marker([55.753944, 37.7579]).addTo(map);
-var point5 = L.marker([55.753577, 39.7539]).addTo(map);
-var point6 = L.marker([55.752544, 37.7588]).addTo(map);
 
+var markers = []; // Массив для хранения маркеров
 
+// Обработчик щелчка на карте
+map.on('click', function(e) {
+  // Создаем маркер с выбранным пользователем цветом
+  var marker = L.marker(e.latlng, { draggable: true, color: document.getElementById('color').value }).addTo(map);
+  markers.push(marker); // Добавляем маркер в массив
 
+  // Отображаем форму при клике на маркер
+  document.getElementById('popup-form').style.display = 'block';
 
-var blueIcon = L.icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
+  // Обработчик события перемещения маркера
+  marker.on('dragend', function(e) {
+    document.getElementById('popup-form').style.display = 'block';
+  });
+
+  // Обработчик удаления маркера при щелчке на нем
+  marker.on('click', function() {
+    map.removeLayer(marker);
+    var index = markers.indexOf(marker);
+    if (index !== -1) {
+      markers.splice(index, 1); // Удаляем маркер из массива
+    }
+  });
 });
-var redIcon = L.icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
+
+// Обработчик отправки формы
+document.getElementById('comment-form').addEventListener('submit', function(e) {
+  e.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+
+  var username = document.getElementById('username').value;
+  var comment = document.getElementById('comment').value;
+  var color = document.getElementById('color').value;
+
+  // Получаем последний добавленный маркер
+  var marker = markers[markers.length - 1];
+
+  // Создаем и добавляем комментарий к маркеру
+  var popupContent = "<b>" + username + "</b><br>" + comment + "<br><br><button onclick=\"deleteMarker(" + markers.length + ")\">Удалить метку</button>";
+  marker.bindPopup(popupContent).openPopup();
+
+  // Сохраняем координаты маркера, цвет метки и комментарий в localStorage
+  var markerData = {
+    lat: marker.getLatLng().lat,
+    lng: marker.getLatLng().lng,
+    color: color,
+    username: username,
+    comment: comment
+  };
+  localStorage.setItem('markerData-' + (markers.length - 1), JSON.stringify(markerData));
+
+  // Скрываем форму
+  document.getElementById('popup-form').style.display = 'none';
+
+  // Очищаем поля формы
+  document.getElementById('username').value = '';
+  document.getElementById('comment').value = '';
 });
 
-
-// Функция для расчета расстояния между точками
-function calculateDistance(latlng1, latlng2) {
-    var distance = latlng1.distanceTo(latlng2); // Расстояние в метрах
-    return distance.toFixed(2);
-  }
-
-
-function setIcon(){
-  
+// Функция для удаления маркера
+function deleteMarker(index) {
+  var marker = markers[index];
+  map.removeLayer(marker);
+  markers.splice(index, 1);
+  localStorage.removeItem('markerData-' + index);
 }
 
+document.getElementById('clear-markers').addEventListener('click', function() {
+  markers.forEach(function(marker) {
+    map.removeLayer(marker);
+  });
+  markers = [];
+  localStorage.clear(); // Очищаем localStorage
+});
 
-  // Обработчик события при клике на маркеры
-  function onMarkerClick(e) {
-    var distance = calculateDistance(e.target.getLatLng(), (e.target === point1) ? point2.getLatLng() : point1.getLatLng());
-    alert("Расстояние от вашей точки: " + distance + " метров");
+// При загрузке страницы проверяем наличие данных о маркерах в localStorage и восстанавливаем их
+for (var i = 0; i < localStorage.length; i++) {
+  var key = localStorage.key(i);
+  if (key.startsWith('markerData-')) {
+    var savedMarkerData = JSON.parse(localStorage.getItem(key));
+    var marker = L.marker([savedMarkerData.lat, savedMarkerData.lng], { draggable: true, color: savedMarkerData.color }).addTo(map);
+    var popupContent = "<b>" + savedMarkerData.username + "</b><br>" + savedMarkerData.comment + "<br><br><button onclick=\"deleteMarker(" + i + ")\">Удалить метку</button>";
+    marker.bindPopup(popupContent).openPopup();
 
-    if (distance > 1000) {
-      point2.setIcon(redIcon);
-      point3.setIcon(redIcon);
-      point4.setIcon(redIcon);
-      point5.setIcon(redIcon);
-      point6.setIcon(redIcon);
-    } else {
-      point2.setIcon(blueIcon);
-      point3.setIcon(redIcon);
-      point4.setIcon(redIcon);
-      point5.setIcon(redIcon);
-      point6.setIcon(redIcon);
-    }
+    // Обработчик события перемещения маркера
+    marker.on('dragend', function(e) {
+      document.getElementById('popup-form').style.display = 'block';
+    });
+
+    markers.push(marker);
   }
-
-
-  
-  // Привязываем обработчик события к маркерам
-  // point1.on('click', onMarkerClick);
-  point2.on('click', onMarkerClick);
-  point3.on('click', onMarkerClick);
-  point4.on('click', onMarkerClick);
-  point5.on('click', onMarkerClick);
-  point6.on('click', onMarkerClick);
+}
