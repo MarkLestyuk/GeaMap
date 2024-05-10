@@ -32,13 +32,6 @@
                 </div>
             </div>
         </nav>
-        <!-- <nav>
-            <ul>
-                <li><a href="/public/home">Главная</a></li>
-                <li><a href="/public/home/personal_account">Личный кабинет</a></li>
-                <li><a href="/public/">Выход</a></li>
-            </ul>
-        </nav> -->
     </header>
     </head>
 
