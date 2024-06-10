@@ -44,10 +44,9 @@
             <p>{{ Auth::user()->email }}</p>
             <p>Дата регистрации: {{ Auth::user()->created_at }}</p>
         </div>
-        <ul id="markers-list"></ul>
-
-
+        <div id="markers-list"></div>
     </div>
+
     <footer>
         <p>&copy; 2024 GEOMAP.</p>
     </footer>

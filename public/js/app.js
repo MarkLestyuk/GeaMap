@@ -7,9 +7,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 var markers = []; // Массив для хранения маркеров
+var markersList = document.getElementById('markers-list');
+
+
 
 // Обработчик щелчка на карте
-map.on('click', function(e) {
+map.on('click', function (e) {
   // Создаем маркер с выбранным пользователем цветом
   var marker = L.marker(e.latlng, { draggable: true, color: document.getElementById('color').value }).addTo(map);
   markers.push(marker); // Добавляем маркер в массив
@@ -18,12 +21,12 @@ map.on('click', function(e) {
   document.getElementById('popup-form').style.display = 'block';
 
   // Обработчик события перемещения маркера
-  marker.on('dragend', function(e) {
+  marker.on('dragend', function (e) {
     document.getElementById('popup-form').style.display = 'block';
   });
 
   // Обработчик удаления маркера при щелчке на нем
-  marker.on('click', function() {
+  marker.on('click', function () {
     map.removeLayer(marker);
     var index = markers.indexOf(marker);
     if (index !== -1) {
@@ -32,8 +35,16 @@ map.on('click', function(e) {
   });
 });
 
+
+
+const closeBtn = document.getElementById('close-btn');
+
+closeBtn.addEventListener('click', () => {
+  document.getElementById('popup-form').style.display = 'none';
+});
+
 // Обработчик отправки формы
-document.getElementById('comment-form').addEventListener('submit', function(e) {
+document.getElementById('comment-form').addEventListener('submit', function (e) {
   e.preventDefault(); // Предотвращаем стандартное поведение отправки формы
 
   var username = document.getElementById('username').value;
@@ -63,6 +74,17 @@ document.getElementById('comment-form').addEventListener('submit', function(e) {
   // Очищаем поля формы
   document.getElementById('username').value = '';
   document.getElementById('comment').value = '';
+
+
+  // Добавляем метку в список
+  var listItem = document.createElement('li');
+  listItem.textContent = 'Метка ' + markers.length;
+  listItem.addEventListener('click', function () {
+    map.removeLayer(marker);
+    markers.splice(markers.indexOf(marker), 1);
+    markersList.removeChild(listItem);
+  });
+  markersList.appendChild(listItem);
 });
 
 // Функция для удаления маркера
@@ -73,8 +95,8 @@ function deleteMarker(index) {
   localStorage.removeItem('markerData-' + index);
 }
 
-document.getElementById('clear-markers').addEventListener('click', function() {
-  markers.forEach(function(marker) {
+document.getElementById('clear-markers').addEventListener('click', function () {
+  markers.forEach(function (marker) {
     map.removeLayer(marker);
   });
   markers = [];
@@ -91,10 +113,13 @@ for (var i = 0; i < localStorage.length; i++) {
     marker.bindPopup(popupContent).openPopup();
 
     // Обработчик события перемещения маркера
-    marker.on('dragend', function(e) {
+    marker.on('dragend', function (e) {
       document.getElementById('popup-form').style.display = 'block';
     });
 
     markers.push(marker);
   }
 }
+
+
+

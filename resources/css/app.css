@@ -35,6 +35,7 @@ nav ul li {
 nav ul li a {
     color: #000000;
     text-decoration: none;
+    font-size: x-large;
 }
 
 nav ul li a:hover {
@@ -89,10 +90,103 @@ footer {
 }
 
 #map {
-    height: 500px;
+    height: 746px;
     width: 100%;
 }
 
 #popup-form {
     display: none;
 }
+
+#popup-form {
+    position: absolute;
+    /* Позиционируем абсолютно относительно ближайшего родительского элемента */
+    top: 50%;
+    /* Располагаем элемент по вертикали по центру */
+    left: 50%;
+    /* Располагаем элемент по горизонтали по центру */
+    transform: translate(-50%, -50%);
+    /* Центрируем элемент относительно его собственных размеров */
+    z-index: 9999;
+    /* Выбираем очень высокий индекс слоя, чтобы элемент был поверх всех других */
+    background-color: white;
+    /* Добавляем белый фон */
+    padding: 20px;
+    /* Добавляем отступы вокруг контента */
+    border: 1px solid #ccc;
+    /* Добавляем рамку */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Добавляем тень */
+}
+
+#clear-markers {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: #8f8572;
+    padding: 20px;
+    border: 1px solid #ccc;
+    font-size: large;
+    border-radius: 30px;
+}
+
+#close-btn img {
+    width: 20px;
+    position: fixed;
+    top: 0%;
+    left: 95%;
+}
+
+#close-btn {
+    width: 20px;
+    position: fixed;
+    top: 0%;
+    left: 95%;
+}
+
+
+@media screen and (max-width: 600px) {
+    #close-btn img {
+        width: 20px;
+        position: fixed;
+        top: 0%;
+        left: 92%;
+    }
+
+    #close-btn {
+        width: 20px;
+        position: fixed;
+        top: 0%;
+        left: 92%;
+    }
+    #map {
+        height: 470px;
+        width: 100%;
+    }
+    #clear-markers {
+        position: absolute;
+        top: 80%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        background-color: #8f8572;
+        padding: 20px;
+        border: 1px solid #ccc;
+        font-size:small ;
+        border-radius: 30px;
+    }
+
+    .nav-link{
+        float:right;
+    }
+    .navbar-toggler{
+        float: right;
+    }
+    .navbar{
+        align-items: end;
+        float: right;
+    }
+}
+
